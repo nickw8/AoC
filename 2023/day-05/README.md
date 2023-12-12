@@ -1,4 +1,4 @@
---- Day 5: If You Give A Seed A Fertilizer ---
+# Day 5: If You Give A Seed A Fertilizer 
 You take the boat and find the gardener right where you were told he would be: managing a giant "garden" that looks more to you like a farm.
 
 "A water source? Island Island **is** the water source!" You point out that Snow Island isn't receiving any water.
@@ -11,7 +11,7 @@ You barely have time to agree to this request when he brings up another. "While 
 
 The almanac (your puzzle input) lists all of the seeds that need to be planted. It also lists what type of soil to use with each kind of seed, what type of fertilizer to use with each kind of soil, what type of water to use with each kind of fertilizer, and so on. Every type of seed, soil, fertilizer and so on is identified with a number, but numbers are reused by each category - that is, soil `123` and fertilizer `123` aren't necessarily related to each other.
 
-For example:
+## For example:
 
 ```
 seeds: 79 14 55 13
@@ -48,6 +48,7 @@ humidity-to-location map:
 60 56 37
 56 93 4
 ```
+---
 
 The almanac starts by listing which seeds need to be planted: seeds `79`, `14`, `55`, and `13`.
 
@@ -102,5 +103,5 @@ The gardener and his team want to get started as soon as possible, so they'd lik
 
 So, the lowest location number in this example is `35`.
 
-**What is the lowest location number that corresponds to any of the initial seed numbers?**
+## What is the lowest location number that corresponds to any of the initial seed numbers?
 
