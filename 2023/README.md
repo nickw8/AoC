@@ -20,9 +20,9 @@ brew install just
 
 ## cargo-nextest
 
-> [cargo-nextest][cargo-nextest] is "a next-generation test runner for Rust projects". Basically that means it includes [an interesting execution model][cargo-nextest-execution-model] than can be great for projects with a _lot_ of tests.
+> cargo-nextest[^1] is "a next-generation test runner for Rust projects". Basically that means it includes an interesting execution model[^2] than can be great for projects with a _lot_ of tests.
 >
->As of this year's AoC, [cargo-nextest][cargo-nextest] doesn't run doctests yet, so while that won't be an issue for us it is something to be aware of if you're using nextest in a "real project". (Basically that means you also run `cargo test --doc`).
+>As of this year's AoC, cargo-nextest doesn't run doctests yet, so while that won't be an issue for us it is something to be aware of if you're using nextest in a "real project". (Basically that means you also run `cargo test --doc`).
 >
 >cargo-nextest has what I consider [a positive relationship with the regular `cargo test`](https://nexte.st/book/how-it-works.html#contributing-features-back-to-cargo) and is rightfully a nice place to be experimenting with new testing UX. `cargo test` works well and `cargo nextest` is a forward-looking place for experimentation.
 >
@@ -32,6 +32,5 @@ brew install just
 cargo install cargo-nextest
 ```
 
-[just]https://github.com/casey/just
-[cargo-nextest]: https://nexte.st/
-[cargo-nextest-execution-model]: https://nexte.st/book/how-it-works.html
+[^1]: https://nexte.st/  
+[^2]: https://nexte.st/book/how-it-works.html  
