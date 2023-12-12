@@ -7,61 +7,45 @@ use nom::{
     sequence::tuple,
     IResult,
 };
+use std::collections::BTreeMap;
 
 #[derive(Debug)]
 struct Card {
-    card_number: u32,
     winning_numbers: Vec<u32>,
     my_numbers: Vec<u32>,
-    cards_won: u32,
 }
 
 impl Card {
     #[allow(dead_code)]
-
     fn find_winning_numbers(&self) -> Vec<&u32> {
         self.my_numbers
             .iter()
             .filter(|&number| self.winning_numbers.contains(number))
             .collect()
     }
+    #[allow(dead_code)]
+    fn calculate_points(&self) -> u32 {
+        let my_winners = self.find_winning_numbers().len();
+        (my_winners > 0)
+            .then(|| 2u32.pow(my_winners as u32 - 1))
+            .unwrap_or(0)
+    }
 
-    fn calculate_points(&self)  {
-        let self.cards_won = self.find_winning_numbers().len().unwrap_or(0);
-
+    fn cards_won(&self) -> usize {
+        self.find_winning_numbers().len()
     }
 }
 
 fn parse_card_number(input: &str) -> IResult<&str, u32> {
-    // dbg!(input);
     map_res(digit1, str::parse::<u32>)(input)
 }
 
 fn parse_card_numbers(input: &str) -> IResult<&str, Vec<u32>> {
-    // dbg!(&input);
     separated_list1(multispace1, parse_card_number)(input)
 }
 
 fn card(input: &str) -> IResult<&str, Card> {
-    // // dbg!(&input);
-    // let (input, _) = tuple((
-    //     multispace0,
-    //     tag("Card"),
-    //     multispace1,
-    //     digit1,
-    //     tag(":"),
-    //     multispace1,
-    // ))(input.trim())?;
-    // // dbg!(&input);
-    // let (input, winning_numbers) = parse_card_numbers(input)?;
-    // // dbg!(&input);
-    // let (input, _) = tuple((multispace1, tag("|"), multispace1))(input)?;
-    // // dbg!(&input);
-    // let (input, my_numbers) = parse_card_numbers(input)?;
-    // // dbg!(&input);
-
-    // dbg!(&input);
-    let (input, ((_, _, _, card_number, _, _), winning_numbers, _, my_numbers)) = tuple((
+    let (input, (_, winning_numbers, _, my_numbers)) = tuple((
         tuple((
             multispace0,
             tag("Card"),
@@ -78,10 +62,8 @@ fn card(input: &str) -> IResult<&str, Card> {
     Ok((
         input,
         Card {
-            card_number,
             winning_numbers,
             my_numbers,
-            cards_won: 0,
         },
     ))
 }
@@ -92,8 +74,33 @@ fn parse_cards(input: &str) -> IResult<&str, Vec<Card>> {
 
 pub fn process(input: &str) -> miette::Result<String, AocError> {
     let (_, cards) = parse_cards(input).expect("this should parse");
-    dbg!(&cards.len());
-    Ok(cards.len().to_string())
+    // dbg!(&cards);
+
+    let all_matches: Vec<_> = cards.iter().map(|card| card.cards_won()).collect();
+    // dbg!(&all_matches);
+
+    let count_of_cards_won = (0..cards.len())
+        .map(|index| (index, 1))
+        .collect::<BTreeMap<usize, u32>>();
+    // dbg!(&count_of_cards_won);
+
+    let total_cards_won = all_matches
+        .iter()
+        .enumerate()
+        .fold(count_of_cards_won, |mut acc, (index, card_score)| {
+            let to_add = *acc.get(&index).unwrap();
+
+            for i in (index + 1)..(index + 1 + *card_score) {
+                acc.entry(i).and_modify(|value| {
+                    *value += to_add;
+                });
+            }
+            acc
+        })
+        .values()
+        .sum::<u32>();
+
+    Ok(total_cards_won.to_string())
 }
 
 #[cfg(test)]
