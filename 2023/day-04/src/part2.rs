@@ -73,24 +73,22 @@ fn parse_cards(input: &str) -> IResult<&str, Vec<Card>> {
 }
 
 pub fn process(input: &str) -> miette::Result<String, AocError> {
-    let (_, cards) = parse_cards(input).expect("this should parse");
+    let (_, cards) = parse_cards(input).expect("the parser to succeed");
     // dbg!(&cards);
-
-    let all_matches: Vec<_> = cards.iter().map(|card| card.cards_won()).collect();
-    // dbg!(&all_matches);
 
     let count_of_cards_won = (0..cards.len())
         .map(|index| (index, 1))
         .collect::<BTreeMap<usize, u32>>();
     // dbg!(&count_of_cards_won);
 
-    let total_cards_won = all_matches
+    let total_cards_won = cards
         .iter()
+        .map(|card| card.cards_won())
         .enumerate()
         .fold(count_of_cards_won, |mut acc, (index, card_score)| {
             let to_add = *acc.get(&index).unwrap();
 
-            for i in (index + 1)..(index + 1 + *card_score) {
+            for i in (index + 1)..(index + 1 + card_score) {
                 acc.entry(i).and_modify(|value| {
                     *value += to_add;
                 });
