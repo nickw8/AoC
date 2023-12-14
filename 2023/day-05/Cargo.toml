@@ -2,6 +2,7 @@
 name = "day-05"
 version = "0.1.0"
 edition = "2021"
+default-run = "main"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -12,3 +13,7 @@ miette = { workspace = true }
 thiserror = { workspace = true }
 rstest = { workspace = true }
 ariadne = { workspace = true }
+
+[[bin]]
+name = "main"
+path = "src/bin/main.rs"

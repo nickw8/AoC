@@ -4,7 +4,8 @@ pub fn process(_input: &str) -> miette::Result<String, AocError> {
     // parse input
     // create mappings between different maps
     // get lowest value for location
-    todo!("day 01 - part 1");
+
+    Ok("todo - part 1".to_string())
 }
 
 #[cfg(test)]

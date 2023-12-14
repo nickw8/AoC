@@ -1,7 +1,7 @@
 use crate::custom_error::AocError;
 
 pub fn process(_input: &str) -> miette::Result<String, AocError> {
-    todo!("day 01 - part 1");
+    Ok("todo - part 1".to_string())
 }
 
 #[cfg(test)]
